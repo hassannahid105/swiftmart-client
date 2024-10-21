@@ -2,12 +2,14 @@ import { comment } from "postcss";
 import { useLoaderData } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const JobDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const { user } = useContext(AuthContext);
   const {
     _id,
     category,
@@ -18,12 +20,11 @@ const JobDetails = () => {
     max_price,
     deadline,
   } = useLoaderData();
-  console.log(buyer);
   const handleFormSubmission = async (e) => {
+    e.preventDefault();
     if (user?.email === buyer?.email)
       return toast.error("Action is not permitted");
 
-    e.preventDefault();
     const form = e.target;
     const jobId = _id;
     const price = parseFloat(form.price.value);
@@ -40,11 +41,15 @@ const JobDetails = () => {
       userEmail,
       JobStatus,
       deadline,
-      buyer,
-      buyer_email: buyer?.email,
+      buyer: {
+        buyer_email: buyer?.email,
+        name: buyer?.name,
+        photo: buyer?.photo,
+      },
       job_title,
       category,
     };
+    console.dir(bidData);
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_lOCALHOST}/bid`,
@@ -123,7 +128,7 @@ const JobDetails = () => {
                 id="emailAddress"
                 type="email"
                 name="email"
-                defaultValue={buyer?.email}
+                defaultValue={user?.email}
                 disabled
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
               />

@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <div>Home</div>
+            <Link to="/">Home</Link>
           </li>
 
           {!user && (
@@ -58,7 +58,7 @@ const Navbar = () => {
                 <Link to="/my-bids">My Bids</Link>
               </li>
               <li>
-                <Link to="bid-request">Bid Requests</Link>
+                <Link to="bids-request">Bid Requests</Link>
               </li>
               <li className="mt-2">
                 <button
