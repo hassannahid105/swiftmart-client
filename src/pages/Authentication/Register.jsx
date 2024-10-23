@@ -20,7 +20,6 @@ const Registration = () => {
       navigate("/");
       toast.success("singin google successfully");
     } catch (err) {
-      console.log(err);
       toast.error(err?.message);
     }
   };
@@ -32,7 +31,6 @@ const Registration = () => {
     const password = form.password.value;
     const name = form.name.value;
     const photo = form.photo.value;
-    console.log(email, password, name, photo);
     try {
       const result = await createUser(email, password);
       await updateUserProfile(name, photo);

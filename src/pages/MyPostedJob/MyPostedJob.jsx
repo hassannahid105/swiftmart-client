@@ -1,18 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-import axios from "axios";
 import PostedJobTr from "./PostedJobTr";
 import toast from "react-hot-toast";
+import axios from "axios";
+import useAxiosSecurity from "../../hooks/useAxionsSecurity";
 
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecurity();
   const [jobs, setJobs] = useState([]);
   const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(
-        `${import.meta.env.VITE_lOCALHOST}/jobs/${id}`
-      );
-      console.log(data);
+      const { data } = await axios.delete(`/jobs/${id}`);
       toast.success("delete successfully");
       getData();
     } catch (err) {
@@ -20,9 +19,7 @@ const MyPostedJobs = () => {
     }
   };
   const getData = async () => {
-    const { data } = await axios(
-      `${import.meta.env.VITE_lOCALHOST}/jobs/${user?.email}`
-    );
+    const { data } = await axiosSecure(`/jobs/${user?.email}`);
     setJobs(data);
   };
   useEffect(() => {

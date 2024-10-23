@@ -41,9 +41,7 @@ const AddJob = () => {
       );
       toast.success("Job data added successfully");
       navigate("/my-posted-jobs");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-306px)] my-12">

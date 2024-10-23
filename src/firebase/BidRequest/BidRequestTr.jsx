@@ -1,6 +1,6 @@
 import React from "react";
 
-const BidRequestTr = ({ bid }) => {
+const BidRequestTr = ({ bid, handleStatus, handleRejected }) => {
   const { _id, job_title, deadline, JobStatus, price, category, userEmail } =
     bid;
   return (
@@ -37,7 +37,10 @@ const BidRequestTr = ({ bid }) => {
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
         <div className="flex items-center gap-x-6">
-          <button className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none">
+          <button
+            onClick={() => handleStatus(_id, JobStatus, "In progress")}
+            className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -54,7 +57,10 @@ const BidRequestTr = ({ bid }) => {
             </svg>
           </button>
 
-          <button className="text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none">
+          <button
+            onClick={() => handleRejected(_id, JobStatus, "Rejected")}
+            className="text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const MyBidsTr = ({ bid }) => {
+const MyBidsTr = ({ bid, handleStatus }) => {
   const { _id, job_title, deadline, JobStatus, price, category } = bid;
 
   return (
@@ -34,6 +34,7 @@ const MyBidsTr = ({ bid }) => {
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
         <button
+          onClick={() => handleStatus(_id, JobStatus, "Complete")}
           title="Mark Complete"
           className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed"
         >

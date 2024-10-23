@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -38,6 +39,9 @@ const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     setLoading(true);
+    const result = await axios(`${import.meta.env.VITE_lOCALHOST}/logout`, {
+      withCredentials: true,
+    });
     toast.success("log out success...........");
     return signOut(auth);
   };
@@ -53,7 +57,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("CurrentUser-->", currentUser);
       setLoading(false);
     });
     return () => {

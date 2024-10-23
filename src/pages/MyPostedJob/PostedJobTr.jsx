@@ -10,7 +10,6 @@ const PostedJobTr = ({ job, handleDelete }) => {
     category,
     description,
   } = job;
-  console.log(job._id);
 
   return (
     <tr>

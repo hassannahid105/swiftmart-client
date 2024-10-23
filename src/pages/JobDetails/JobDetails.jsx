@@ -57,9 +57,7 @@ const JobDetails = () => {
       );
       console.dir(data);
       toast.success("Bid data added successfully");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (

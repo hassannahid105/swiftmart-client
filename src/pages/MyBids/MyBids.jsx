@@ -2,17 +2,26 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
 import MyBidsTr from "./MyBidsTr";
+import useAxiosSecurity from "../../hooks/useAxionsSecurity";
 
 const MyBids = () => {
   const { user } = useContext(AuthContext);
   const [bids, setBids] = useState([]);
+  const axiosSecure = useAxiosSecurity();
+  // complete button
+  const handleStatus = async (id, prevStatus, currStatus) => {
+    const changeStatus = { status: currStatus };
+    const { data } = await axios.patch(
+      `${import.meta.env.VITE_lOCALHOST}/bid/${id}`,
+      changeStatus
+    );
+    getData();
+  };
+  const getData = async () => {
+    const { data } = await axiosSecure(`/my-bids/${user?.email}`);
+    setBids(data);
+  };
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_lOCALHOST}/my-bids/${user?.email}`
-      );
-      setBids(data);
-    };
     getData();
   }, []);
   console.log(bids);
@@ -22,7 +31,7 @@ const MyBids = () => {
         <h2 className="text-lg font-medium text-gray-800 ">My Bids</h2>
 
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-          05 Bid
+          {bids.length} Bid
         </span>
       </div>
 
@@ -79,7 +88,11 @@ const MyBids = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 ">
                   {bids.map((bid) => (
-                    <MyBidsTr key={bid._id} bid={bid}></MyBidsTr>
+                    <MyBidsTr
+                      key={bid._id}
+                      bid={bid}
+                      handleStatus={handleStatus}
+                    ></MyBidsTr>
                   ))}
                 </tbody>
               </table>
