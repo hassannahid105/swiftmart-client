@@ -1,5 +1,5 @@
 import { comment } from "postcss";
-import { useLoaderData } from "react-router-dom";
+import { Navigate, useLoaderData, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useContext, useState } from "react";
@@ -10,6 +10,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 const JobDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     _id,
     category,
@@ -55,9 +56,12 @@ const JobDetails = () => {
         `${import.meta.env.VITE_lOCALHOST}/bid`,
         bidData
       );
-      console.dir(data);
+      navigate("/my-bids");
       toast.success("Bid data added successfully");
-    } catch (err) {}
+    } catch (err) {
+      e.target.reset();
+      toast.error(err.response.data);
+    }
   };
 
   return (

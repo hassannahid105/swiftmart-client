@@ -11,10 +11,7 @@ const MyBids = () => {
   // complete button
   const handleStatus = async (id, prevStatus, currStatus) => {
     const changeStatus = { status: currStatus };
-    const { data } = await axios.patch(
-      `${import.meta.env.VITE_lOCALHOST}/bid/${id}`,
-      changeStatus
-    );
+    const { data } = await axiosSecure.patch(`/bid/${id}`, changeStatus);
     getData();
   };
   const getData = async () => {
@@ -24,7 +21,6 @@ const MyBids = () => {
   useEffect(() => {
     getData();
   }, []);
-  console.log(bids);
   return (
     <section className="container px-4 mx-auto pt-12">
       <div className="flex items-center gap-x-3">

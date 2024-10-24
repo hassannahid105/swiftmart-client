@@ -4,6 +4,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+
   return (
     <div className="navbar bg-base-100 shadow-sm container px-4 mx-auto">
       <div className="flex-1">
@@ -16,6 +17,9 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">
           <li>
             <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/allJobs">All Jobs</Link>
           </li>
 
           {!user && (

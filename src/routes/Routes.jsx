@@ -11,6 +11,7 @@ import UpdateJob from "../pages/UpdateJob/UpdateJob";
 import PrivateRoutes from "./PrivateRoutes";
 import MyBids from "../pages/MyBids/MyBids";
 import BidRequest from "../firebase/BidRequest/BidRequest";
+import AllJobs from "../pages/AllJobs/AllJobs";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+      },
+      {
+        path: "/alljobs",
+        element: <AllJobs></AllJobs>,
       },
       {
         path: "/job/:id",
