@@ -26,7 +26,7 @@ const AllJobs = () => {
       setJobs(data);
     };
     getData();
-  }, [currentPages, itemsPerPage, filter, sort]);
+  }, [currentPages, itemsPerPage, filter, sort, search]);
   useEffect(() => {
     const getCount = async () => {
       console.log(filter);
@@ -45,11 +45,12 @@ const AllJobs = () => {
   const handleReset = () => {
     setFilter("");
     setSort("");
+    setSearch("");
   };
   const handleSearch = (e) => {
     e.preventDefault(); //
-    const search = e.target.search.value;
-    setSearch(search);
+    const text = e.target.search.value;
+    setSearch(text);
   };
   console.log(search);
   return (
