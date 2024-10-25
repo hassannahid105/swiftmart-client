@@ -6,10 +6,11 @@ const AllJobs = () => {
   const [itemsPerPage, setItemsPerPages] = useState(2);
   const [totalData, setTotalData] = useState(0);
   const [currentPages, setCurrentPages] = useState(1);
+  const [filter, setFilter] = useState("");
   const numberOfPages = Math.ceil(totalData / itemsPerPage);
   const pages = [
     ...Array(numberOfPages)
-      .keys(3)
+      .keys()
       .map((page) => page + 1),
   ];
   const [jobs, setJobs] = useState([]);
@@ -18,39 +19,45 @@ const AllJobs = () => {
       const { data } = await axios(
         `${
           import.meta.env.VITE_lOCALHOST
-        }/all-jobs?page=${currentPages}&size=${itemsPerPage}`
+        }/all-jobs?page=${currentPages}&size=${itemsPerPage}&filter=${filter}`
       );
       setJobs(data);
     };
     getData();
-  }, [currentPages]);
+  }, [currentPages, itemsPerPage, filter]);
   useEffect(() => {
     const getCount = async () => {
+      console.log(filter);
       const { data } = await axios(
-        `${import.meta.env.VITE_lOCALHOST}/jobs-count`
+        `${import.meta.env.VITE_lOCALHOST}/jobs-count?&filter=${filter}`
       );
+      console.log("data", data);
+
       setTotalData(data.count);
     };
     getCount();
-  }, []);
-  // handle currernt page for paginatin
+  }, [filter]);
   const handleCurrentPagesNumber = (pageNumber) => {
     setCurrentPages(pageNumber);
   };
-  console.log(typeof currentPages, "this is my current page");
   return (
     <div className="container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
         <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
           <div>
             <select
+              onChange={(e) => {
+                setFilter(e.target.value);
+                setCurrentPages(1);
+              }} //explaine this line
               name="category"
+              value={filter} // and this one too
               id="category"
               className="border p-4 rounded-lg"
             >
               <option value="">Filter By Category</option>
               <option value="Web Development">Web Development</option>
-              <option value="Graphics Design">Graphics Design</option>
+              <option value="Graphic Design">Graphics Design</option>
               <option value="Digital Marketing">Digital Marketing</option>
             </select>
           </div>
@@ -93,7 +100,8 @@ const AllJobs = () => {
       <div className="flex justify-center mt-12">
         {/* privious button */}
         <button
-          onClick={() => handlePre(currentPages - 1)}
+          onClick={() => setCurrentPages(currentPages - 1)}
+          disabled={currentPages === 1}
           className="px-4 py-2 mx-1 text-gray-700 disabled:text-gray-500 capitalize bg-gray-200 rounded-md disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-blue-500  hover:text-white"
         >
           <div className="flex items-center -mx-1">
@@ -129,7 +137,8 @@ const AllJobs = () => {
         ))}
         {/* Next  button */}
         <button
-          onClick={() => handleNext(currentPages + 1)}
+          onClick={() => setCurrentPages(currentPages + 1)}
+          disabled={numberOfPages === currentPages}
           className="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500"
         >
           <div className="flex items-center -mx-1">

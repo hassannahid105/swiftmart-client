@@ -12,6 +12,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import MyBids from "../pages/MyBids/MyBids";
 import BidRequest from "../firebase/BidRequest/BidRequest";
 import AllJobs from "../pages/AllJobs/AllJobs";
+import Test from "../Test";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
   {
     path: "/registration",
     element: <Registration></Registration>,
+  },
+  {
+    path: "/test",
+    element: <Test></Test>,
   },
 ]);
 
